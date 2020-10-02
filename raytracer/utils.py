@@ -1,5 +1,5 @@
 import numpy as np
-from light import Light
+from .Light import Light
 
 
 def normalise(v):

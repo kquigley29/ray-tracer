@@ -1,8 +1,8 @@
 import numpy as np
-from camera import Camera
-from light import Light
-from objects import Object
-from utils import calculate_lighting
+from .Camera import Camera
+from .Light import Light
+from .Objects import Object
+from .utils import calculate_lighting
 
 
 class Scene:

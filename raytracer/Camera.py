@@ -1,6 +1,6 @@
 import numpy as np
-from utils import normalise
-from ray import Ray
+from .utils import normalise
+from .Ray import Ray
 
 
 class Camera:

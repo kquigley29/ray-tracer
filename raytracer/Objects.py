@@ -1,6 +1,6 @@
 import numpy as np
-from utils import normalise
-from intersection import Intersection
+from .utils import normalise
+from .Intersection import Intersection
 
 
 class Object:
