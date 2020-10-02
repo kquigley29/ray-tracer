@@ -31,7 +31,7 @@ class Scene:
                             hit = intersection.hit_point
 
                             for light in self.lights:
-                                value = calculate_lighting(light, intersection.hit_point, intersection.normal)
+                                value = calculate_lighting(light, intersection)
 
                                 if value is not None:
                                     color += value

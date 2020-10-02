@@ -1,19 +1,21 @@
 import numpy as np
 from utils import normalise
+from material import Material
 from intersection import Intersection
 
 
 class Object:
-    def __init__(self, position):
+    def __init__(self, position, material : Material):
         self.position = np.array(position)
+        self.material = material
 
     def get_intersection(self, ray):
         return None, None, None
 
 
 class Sphere(Object):
-    def __init__(self, position, radius):
-        super().__init__(position)
+    def __init__(self, position, radius, material):
+        super().__init__(position, material)
         self.radius = radius
 
     def get_intersection(self, ray):
@@ -39,6 +41,6 @@ class Sphere(Object):
 
             elif 0 < t2 < t1:
                 hit_point = ray.ray_origin + (ray.direction * t2)
-                return Intersection(hit_point, normalise(hit_point - self.position))
+                return Intersection(hit_point, normalise(hit_point - self.position), self.material)
 
         return None
