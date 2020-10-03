@@ -2,19 +2,24 @@
 // Created by angus on 03/10/2020.
 //
 #include<eigen3/Eigen/Eigen>
+#include <utility>
+
 
 #ifndef RAYTRACER_RAY_H
 #define RAYTRACER_RAY_H
 
-#endif //RAYTRACER_RAY_H
 
-using Eigen::Vector3d;
+struct Ray {
+    Eigen::Vector3d origin;
+    Eigen::Vector3d direction;
 
-struct Ray{
-    Vector3d origin;
-    Vector3d direction;
-    Ray(Vector3d origin, Vector3d direction){
-        this->origin = origin;
-        this->direction = direction;
+    Ray(Eigen::Vector3d& origin, Eigen::Vector3d& direction){
+        origin = origin;
+        direction = direction;
     }
 };
+
+
+#endif //RAYTRACER_RAY_H
+
+
