@@ -21,6 +21,7 @@ add_library(${PROJECT_NAME}lib
 
 target_link_libraries(${PROJECT_NAME}lib
         objects
+        Eigen3::Eigen
         )
 
 add_executable(${PROJECT_NAME}
