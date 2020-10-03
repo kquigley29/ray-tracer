@@ -14,15 +14,15 @@
 
 class Object {
 public:
-    explicit Object(const Eigen::Vector3d& position, const Material& material);
-    explicit Object(const std::vector<double>& position, Material  material);
+    explicit Object(const Eigen::Vector3d& position, const Material&  material);
+    explicit Object(const std::vector<double>& position, const Material&  material);
 
     Eigen::Vector3d get_position();
     Material get_material();
 
     virtual Intersection* get_intersection(const Ray& ray);
 
-private:
+protected:
     Eigen::Vector3d position;
     Material material;
 };

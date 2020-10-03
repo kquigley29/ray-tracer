@@ -14,8 +14,8 @@ struct Ray {
     Eigen::Vector3d direction;
 
     Ray(Eigen::Vector3d& origin, Eigen::Vector3d& direction){
-        origin = origin;
-        direction = direction;
+        this->origin = origin;
+        this->direction = direction;
     }
 };
 
