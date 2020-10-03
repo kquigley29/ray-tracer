@@ -12,7 +12,7 @@ using Eigen::Vector3d;
 
 class Camera {
 public:
-    explicit Camera(const Vector3d& position, const Vector3d& orientation, const double& cam_range,  const std::vector<double>& resolution);
+    Camera(const Vector3d& position, const Vector3d& orientation, const double& cam_range,  const std::vector<double>& resolution);
     Ray generate_ray(float x, float y);
 private:
     Vector3d position;
