@@ -3,7 +3,13 @@ from .Light import Light
 from .Intersection import Intersection
 
 
-def normalise(vector):
+i = np.array([1, 0, 0])
+j = np.array([0, 1, 0])
+k = np.array([0, 0, 1])
+zero_v = np.array([0, 0, 0])
+
+
+def normalise(vector: np.ndarray):
     mag = np.linalg.norm(vector)
     if mag == 0:
         return vector

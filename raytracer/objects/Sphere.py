@@ -1,24 +1,17 @@
 import numpy as np
-from .utils import normalise
-from .Intersection import Intersection
-from .Material import Material
-
-
-class Object:
-    def __init__(self, position, material: Material):
-        self.position = np.array(position)
-        self.material = material
-
-    def get_intersection(self, ray):
-        return None, None, None
+from ..utils import normalise
+from ..Intersection import Intersection
+from ..Material import Material
+from ..Ray import Ray
+from .Object import Object
 
 
 class Sphere(Object):
-    def __init__(self, position, radius, material):
+    def __init__(self, position: [float], radius: float, material: Material):
         super().__init__(position, material)
         self.radius = radius
 
-    def get_intersection(self, ray):
+    def get_intersection(self, ray: Ray):
         a = np.dot(ray.direction, ray.direction)
         b = np.dot((2 * ray.direction), (ray.ray_origin - self.position))
         c = np.dot((ray.ray_origin - self.position), (ray.ray_origin - self.position)) - (self.radius ** 2)

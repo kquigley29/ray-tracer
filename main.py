@@ -4,10 +4,13 @@ import raytracer as rt
 
 def main():
     res = 200
-    camera = rt.Camera([0, 0, 5], [0, 0, -1], 0.5, (res, res))
-    lights = [rt.Light([0, 2, 11], [0, 100, 100])]
-    spheres = [rt.Sphere([0, 0, 0], 2, rt.Material([1.0, 0.4, 0.4]))]
-    scene = rt.Scene(camera, lights, spheres)
+    camera = rt.Camera([1, 5, 5], [0, -1, -1], 0.5, (res, res))
+    lights = [rt.Light([5, 0, 10], [100, 100, 100]),
+              rt.Light([-5, 0, 10], [100, 100, 100])]
+    objects = [rt.Sphere([-1.5, 0, 0], 2, rt.Material([1.0, 0.4, 0.4])),
+               rt.Sphere([1.5, 0, 0], 2, rt.Material([1.0, 0.4, 0.4])),
+               rt.Disc([1, 1, 0], [0, 0, 1], 3, rt.Material([1.0, 1.0, 1.0]))]
+    scene = rt.Scene(camera, lights, objects)
     image = scene.render()
     plt.imshow(image)
     plt.show()

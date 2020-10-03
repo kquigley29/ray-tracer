@@ -1,7 +1,7 @@
 import numpy as np
 from .Camera import Camera
 from .Light import Light
-from .Objects import Object
+from raytracer.objects.Object import Object
 from .utils import calculate_lighting
 
 
