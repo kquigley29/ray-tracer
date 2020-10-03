@@ -1,2 +1,0 @@
-/usr/bin/ar qc libobjects.a  CMakeFiles/objects.dir/src/objects/Object.cpp.o CMakeFiles/objects.dir/src/objects/Sphere.cpp.o CMakeFiles/objects.dir/src/objects/Plane.cpp.o CMakeFiles/objects.dir/src/objects/Disc.cpp.o
-/usr/bin/ranlib libobjects.a

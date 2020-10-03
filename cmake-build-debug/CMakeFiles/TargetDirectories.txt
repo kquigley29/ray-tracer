@@ -1,5 +1,0 @@
-/home/keane/Projects/ray-tracer/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/keane/Projects/ray-tracer/cmake-build-debug/CMakeFiles/objects.dir
-/home/keane/Projects/ray-tracer/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/keane/Projects/ray-tracer/cmake-build-debug/CMakeFiles/raytracerlib.dir
-/home/keane/Projects/ray-tracer/cmake-build-debug/CMakeFiles/raytracer.dir
