@@ -5,6 +5,10 @@
 #include<raytracer/Camera.h>
 
 Camera::Camera(const Vector3d& position, const Vector3d& orientation, const double& cam_range, const std::vector<double>& resolution) {
+    Vector3d i(1,0,0);
+    Vector3d j(0,1,0);
+    Vector3d k(0,0,1);
+
     this->position = position;
     this->orientation = orientation;
     this->cam_range = cam_range;
@@ -16,6 +20,7 @@ Camera::Camera(const Vector3d& position, const Vector3d& orientation, const doub
     this->middle = position + (orientation * cam_range);
     this->left = k.cross(orientation).normalized();
     this->up = orientation.cross(left).normalized();
+
 }
 
 Ray Camera::generate_ray(float x, float y) {

@@ -6,7 +6,7 @@
 #ifndef RAYTRACER_RAY_H
 #define RAYTRACER_RAY_H
 
-#endif //RAYTRACER_RAY_H
+
 
 using Eigen::Vector3d;
 
@@ -18,3 +18,5 @@ struct Ray{
         this->direction = direction;
     }
 };
+
+#endif //RAYTRACER_RAY_H
