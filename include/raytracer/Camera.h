@@ -12,13 +12,15 @@ using Eigen::Vector3d;
 
 class Camera {
 public:
-    Camera(const Vector3d& position, const Vector3d& orientation, const double& cam_range,  const std::vector<double>& resolution);
+    Camera(const Vector3d& position, const Vector3d& orientation, const double& cam_range,  const std::array<double, 2>& resolution);
     Ray generate_ray(float x, float y);
-private:
+    std::array<double, 2> get_resolution();
     Vector3d position;
+private:
+
     Vector3d orientation;
     double cam_range;
-    std::vector<double> resolution;
+    std::array<double, 2> resolution;
     double width;
     double height;
     double pwidth;

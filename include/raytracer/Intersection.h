@@ -16,7 +16,7 @@ struct Intersection {
 
     explicit Intersection() = default;
 
-    explicit Intersection(Eigen::Vector3d& hit_point, Eigen::Vector3d& normal, Material material)
+    explicit Intersection(const Eigen::Vector3d& hit_point, const Eigen::Vector3d& normal, const Material material)
     : hit_point(hit_point),
       normal(normal),
       material(material) {}
