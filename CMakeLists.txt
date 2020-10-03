@@ -6,7 +6,7 @@ find_package(Eigen3 REQUIRED)
 
 include_directories(include)
 
-add_library(objects
+add_library(objectslib
         src/objects/Object.cpp
         src/objects/Sphere.cpp
         src/objects/Plane.cpp
@@ -20,7 +20,7 @@ add_library(${PROJECT_NAME}lib
         )
 
 target_link_libraries(${PROJECT_NAME}lib
-        objects
+        objectslib
         Eigen3::Eigen
         )
 
