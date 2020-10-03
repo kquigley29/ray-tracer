@@ -19,7 +19,7 @@ public:
 
     double get_radius() const;
 
-    Intersection* get_intersection(const Ray& ray) override;
+    bool get_intersection(Intersection& intersection, const Ray& ray) override;
 
 private:
     double radius;

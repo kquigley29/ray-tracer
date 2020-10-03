@@ -24,6 +24,6 @@ Material Object::get_material() {
 }
 
 
-Intersection* Object::get_intersection(const Ray& ray) {
-    return nullptr;
+bool Object::get_intersection(Intersection& intersection, const Ray& ray) {
+    return false;
 }

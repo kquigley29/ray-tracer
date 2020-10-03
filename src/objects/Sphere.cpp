@@ -20,18 +20,11 @@ double Sphere::get_radius() const {
 }
 
 
-Intersection* Sphere::get_intersection(const Ray& ray) {
+bool Sphere::get_intersection(Intersection& intersection, const Ray& ray) {
     double a = ray.direction.dot(ray.direction);
     double b = 2 * ray.direction.dot(ray.origin - this->get_position());
     double c = (ray.origin - this->get_position()).dot(ray.origin - this->get_position()) - (this->radius * this->radius);
     double det = (b * b) - (4 * a * c);
-
-    std::cout << ray.origin << "\n";
-
-    std::cout << "a = " << a << "\n";
-    std::cout << "b = " << b << "\n";
-    std::cout << "c = " << c << "\n";
-    std::cout << "det = " << det << "\n";
 
     if (det == 0) {
         double t = -b / (2 * a);
@@ -39,8 +32,8 @@ Intersection* Sphere::get_intersection(const Ray& ray) {
         if (t > 0) {
             Eigen::Vector3d hit_point = ray.origin + (t * ray.direction);
             Eigen::Vector3d normal = (hit_point - this->get_position()).normalized();
-            auto intersection_ptr = new Intersection(hit_point, normal, this->get_material());
-            return intersection_ptr;
+            intersection = Intersection(hit_point, normal, this->get_material());
+            return true;
         }
     }
 
@@ -51,18 +44,17 @@ Intersection* Sphere::get_intersection(const Ray& ray) {
         if (0 < t1 && t1 < t2) {
             Eigen::Vector3d hit_point = ray.origin + (t1 * ray.direction);
             Eigen::Vector3d normal = (hit_point - this->get_position()).normalized();
-            auto intersection = new Intersection(hit_point, normal, this->get_material());
-            return intersection;
+            intersection = Intersection(hit_point, normal, this->get_material());
+            return true;
         }
 
         else if (0 < t2 && t2 < t1) {
             Eigen::Vector3d hit_point = ray.origin + (t2 * ray.direction);
             Eigen::Vector3d normal = (hit_point - this->get_position()).normalized();
-            auto intersection = new Intersection(hit_point, normal, this->get_material());
-            return intersection;
+            intersection = Intersection(hit_point, normal, this->get_material());
+            return true;
         }
     }
-    std::cout << "no intersection\n";
-    return nullptr;
+    return false;
 }
 

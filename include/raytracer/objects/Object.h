@@ -20,7 +20,7 @@ public:
     Eigen::Vector3d get_position();
     Material get_material();
 
-    virtual Intersection* get_intersection(const Ray& ray);
+    virtual bool get_intersection(Intersection& intersection, const Ray& ray);
 
 protected:
     Eigen::Vector3d position;
