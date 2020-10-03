@@ -4,7 +4,7 @@
 
 #include<raytracer/Camera.h>
 
-Camera::Camera(const Vector3d& position, const Vector3d& orientation, const double& cam_range, const std::vector<double>& resolution) {
+Camera::Camera(const Vector3d& position, const Vector3d& orientation, const double& cam_range, const std::array<double, 2>& resolution) {
     Vector3d i(1,0,0);
     Vector3d j(0,1,0);
     Vector3d k(0,0,1);
@@ -31,4 +31,8 @@ Ray Camera::generate_ray(float x, float y) {
 
     return Ray(this->position, dray);
 
+}
+
+std::array<double, 2> Camera::get_resolution() {
+    return this->resolution;
 }

@@ -11,7 +11,7 @@ struct Ray {
     Eigen::Vector3d origin;
     Eigen::Vector3d direction;
 
-    Ray(Eigen::Vector3d& origin, Eigen::Vector3d& direction){
+    Ray(const Eigen::Vector3d& origin, const Eigen::Vector3d& direction){
         this->origin = origin;
         this->direction = direction;
     }
