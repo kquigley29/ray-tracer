@@ -26,7 +26,7 @@ target_link_libraries(${PROJECT_NAME}lib
 
 add_executable(${PROJECT_NAME}
         src/raytracer.cpp
-        include/raytracer/Ray.h)
+        )
 
 target_link_libraries(${PROJECT_NAME}
         ${PROJECT_NAME}lib

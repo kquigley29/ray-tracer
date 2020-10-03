@@ -6,8 +6,6 @@
 #ifndef RAYTRACER_RAY_H
 #define RAYTRACER_RAY_H
 
-
-
 using Eigen::Vector3d;
 
 struct Ray{
