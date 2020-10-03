@@ -10,11 +10,6 @@ Sphere::Sphere(const Eigen::Vector3d &position, const double &radius, const Mate
   radius(radius) {}
 
 
-Sphere::Sphere(const std::vector<double>& position, const double &radius, const Material& material)
-: Object(position, material),
-  radius(radius) {}
-
-
 double Sphere::get_radius() const {
       return radius;
 }

@@ -9,13 +9,8 @@ Object::Object(const Eigen::Vector3d& position, const Material& material)
   material(material) {}
 
 
-Object::Object(const std::vector<double>& position, const Material& material)
-: position(position.data()),
-  material(material) {}
-
-
 Eigen::Vector3d Object::get_position() {
-    return position;
+    return this->position;
 }
 
 

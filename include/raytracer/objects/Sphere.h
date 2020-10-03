@@ -15,7 +15,6 @@
 class Sphere: public Object {
 public:
     explicit Sphere(const Eigen::Vector3d& position, const double& radius, const Material& material);
-    explicit Sphere(const std::vector<double>& position, const double& radius, const Material& material);
 
     double get_radius() const;
 
