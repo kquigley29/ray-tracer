@@ -1,7 +1,12 @@
 #include "raytracer/Scene.h"
 
 
-Scene::Scene(Camera &camera, std::vector<Light*> lights, std::vector<Object*> objects)
+Scene::Scene(const Camera &camera)
+: camera(camera)
+{ }
+
+
+Scene::Scene(const Camera &camera, const std::vector<Light*>& lights, const std::vector<Object*>& objects)
 : camera(camera)
 , lights(lights)
 , objects(objects)
@@ -105,23 +110,33 @@ cv::Mat Scene::render_pixels_section(int core, int num_cores, Scene* scene) {
 
 
 /*
- * gets hits in the scene between  ray and dest
+ * gets hits in the scene between ray and dest
  */
-bool Scene::get_hit(const Vector3d& orig, const Vector3d& dest) {
+bool Scene::get_hit(const Vector3d& origin, const Vector3d& destination) {
     Intersection intersection;
     bool hit = false;
     for (auto & object : this->objects){
 
         //if(this->objects[i] != object) {
 
-            if(object->get_intersection(intersection, Ray(orig, dest-orig))){
+            if(object->get_intersection(intersection, Ray(origin, destination - origin))){
 
                 //check if the object is between the light and the object
-                if((intersection.hit_point - orig).dot(intersection.hit_point - orig) < (dest - orig).dot(dest -orig)) {
+                if((intersection.hit_point - origin).dot(intersection.hit_point - origin) < (destination - origin).dot(destination -origin)) {
                     return true;
                 }
             }
         //}
     }
     return hit;
+}
+
+
+void Scene::add_object(Object* object) {
+    this->objects.push_back(object);
+}
+
+
+void Scene::add_light(Light *light) {
+    this->lights.push_back(light);
 }

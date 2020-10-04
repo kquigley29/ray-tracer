@@ -1,7 +1,3 @@
-//
-// Created by keane on 03/10/2020.
-//
-
 #include <iostream>
 #include "raytracer/objects/Sphere.h"
 #include "raytracer/objects/Plane.h"
@@ -14,13 +10,12 @@
 #include "raytracer/Scene.h"
 #include "eigen3/Eigen/Eigen"
 #include <cstdlib>
-#include<thread>
+#include <thread>
 
-using Eigen::Vector3d;
 
 int main(int argc, char** argv){
 
-    int cores = std::thread::hardware_concurrency();
+    unsigned int cores = std::thread::hardware_concurrency();
 
     std::array<double, 2> res{800, 800};
     if(argc == 2){
@@ -32,25 +27,23 @@ int main(int argc, char** argv){
         res[1] = atof(argv[2]);
     }
 
-    Camera camera(Vector3d(0,0,3), Vector3d(0,1,-0.5), 0.7, res);
+    Camera camera(Eigen::Vector3d(0,0,3), Eigen::Vector3d(0,1,-0.5), 0.7, res);
+    Scene scene(camera);
 
-    std::vector<Light*> lights = {new PointLight(Vector3d(0,-1,4),
-                                  Vector3d(3000,1000,1000)),
-                                  new PointLight(Vector3d(0,5,1),Vector3d(500,500,500)),
-                                  new PointLight(Vector3d(0,5,7), Vector3d(2000,2000,3000))};
+    scene.add_light(new PointLight(Eigen::Vector3d(0,-1,4), Eigen::Vector3d(3000,1000,1000)));
+    scene.add_light(new PointLight(Eigen::Vector3d(0,5,1),Eigen::Vector3d(500,500,500)));
+    scene.add_light(new PointLight(Eigen::Vector3d(0,5,7), Eigen::Vector3d(2000,2000,3000)));
 
-    std::vector<Object*> objects = {
-            new Plane(Vector3d(0,0,10), Vector3d(0,0,-1), Material(1,0.5,0.5)),
-            new Plane(Vector3d(5,5,0), Vector3d(-1,-1,0), Material(0.5,1,0.5)),
-            new Plane(Vector3d(0,0,-2), Vector3d(0,0,1), Material(1,1,1)),
-            new Plane(Vector3d(-3,0,0), Vector3d(1,0,0), Material(1,1,1)),
-            new Plane(Vector3d(0,12,0), Vector3d(0,-1,0), Material(1,1,1)),
-            new Sphere(Vector3d(2.5,5,0), 1, Material(1,1,1)),
-            new Sphere(Vector3d(-2.5,5,0), 1, Material(1,0.5,1)),
-            new Sphere(Vector3d(0,3,0), 1, Material(1,0.5,1)),
-            new Sphere(Vector3d(0,7,0), 1, Material(1,1,0.7))};
+    scene.add_object(new Plane(Eigen::Vector3d(0,0,10), Eigen::Vector3d(0,0,-1), Material(1,0.5,0.5)));
+    scene.add_object(new Plane(Eigen::Vector3d(5,5,0), Eigen::Vector3d(-1,-1,0), Material(0.5,1,0.5)));
+    scene.add_object(new Plane(Eigen::Vector3d(0,0,-2), Eigen::Vector3d(0,0,1), Material(1,1,1)));
+    scene.add_object(new Plane(Eigen::Vector3d(-3,0,0), Eigen::Vector3d(1,0,0), Material(1,1,1)));
+    scene.add_object(new Plane(Eigen::Vector3d(0,12,0), Eigen::Vector3d(0,-1,0), Material(1,1,1)));
+    scene.add_object(new Sphere(Eigen::Vector3d(2.5,5,0), 1, Material(1,1,1)));
+    scene.add_object(new Sphere(Eigen::Vector3d(-2.5,5,0), 1, Material(1,0.5,1)));
+    scene.add_object(new Sphere(Eigen::Vector3d(0,3,0), 1, Material(1,0.5,1)));
+    scene.add_object(new Sphere(Eigen::Vector3d(0,7,0), 1, Material(1,1,0.7)));
 
-    Scene scene(camera, lights, objects);
 
     cv::Mat image = scene.render_multithreaded(cores);
 

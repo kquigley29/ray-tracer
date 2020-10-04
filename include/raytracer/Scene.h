@@ -2,7 +2,7 @@
 #define RAYTRACER_SCENE_H
 
 
-#include<raytracer/Camera.h>
+#include <raytracer/Camera.h>
 #include<raytracer/lights/Light.h>
 #include<raytracer/objects/Object.h>
 #include "Eigen/Eigen"
@@ -13,11 +13,14 @@
 
 class Scene {
 public:
-    Scene(Camera& camera, std::vector<Light*> lights, std::vector<Object*> objects);
+    explicit Scene(const Camera& camera);
+    explicit Scene(const Camera& camera, const std::vector<Light*>& lights, const std::vector<Object*>& objects);
 
     cv::Mat render();
     cv::Mat render_multithreaded(int cores);
-    bool get_hit(const Vector3d& orig, const Vector3d& dest);
+    bool get_hit(const Vector3d& origin, const Vector3d& destination);
+    void add_object(Object* object);
+    void add_light(Light* light);
 
 private:
     Vector3d render_pixel(int x, int y);
