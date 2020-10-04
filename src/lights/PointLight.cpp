@@ -2,7 +2,7 @@
 // Created by angus on 03/10/2020.
 //
 
-#include "raytracer/PointLight.h"
+#include "raytracer/lights/PointLight.h"
 
 PointLight::PointLight(Vector3d position, Vector3d intensity) : Light(intensity){
     this->position = position;
@@ -19,4 +19,3 @@ Vector3d PointLight::calculate_lighting(Intersection& intersection) {
 
     return cos_theta * (Vector3d(this->intensity.x() * intersection.material.colour.x(), this->intensity.y() * intersection.material.colour.y(), this->intensity.z()*intersection.material.colour.z())) / (dist * dist);
 }
-

@@ -6,7 +6,7 @@
 #define RAYTRACER_SCENE_H
 
 #include<raytracer/Camera.h>
-#include<raytracer/Light.h>
+#include<raytracer/lights/Light.h>
 #include<raytracer/objects/Object.h>
 #include "Eigen/Eigen"
 #include "opencv2/opencv.hpp"

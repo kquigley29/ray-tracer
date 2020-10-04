@@ -7,7 +7,7 @@
 #include "raytracer/objects/Plane.h"
 #include "raytracer/Ray.h"
 #include "raytracer/Material.h"
-#include "raytracer/PointLight.h"
+#include "raytracer/lights/PointLight.h"
 #include "opencv2/opencv.hpp"
 #include "raytracer/Camera.h"
 #include "raytracer/Scene.h"

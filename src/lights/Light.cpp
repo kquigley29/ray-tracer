@@ -2,7 +2,7 @@
 // Created by angus on 03/10/2020.
 //
 
-#include "raytracer/Light.h"
+#include "raytracer/lights/Light.h"
 
 Light::Light(Vector3d intensity) {
     this->intensity = intensity;

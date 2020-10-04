@@ -1,7 +1,7 @@
 //
 // Created by angus on 03/10/2020.
 //
-#include <raytracer/Light.h>
+#include <raytracer/lights/Light.h>
 
 #ifndef RAYTRACER_POINTLIGHT_H
 #define RAYTRACER_POINTLIGHT_H
