@@ -1,22 +1,25 @@
-//
-// Created by angus on 03/10/2020.
-//
-
-#include<eigen3/Eigen/Eigen>
-#include<raytracer/Intersection.h>
-#include "raytracer/utils.h"
-
 #ifndef RAYTRACER_LIGHT_H
 #define RAYTRACER_LIGHT_H
 
-using Eigen::Vector3d;
+
+#include <eigen3/Eigen/Eigen>
+#include<raytracer/Intersection.h>
+#include "raytracer/utils.h"
+
 
 class Light {
 public:
-    Light(Vector3d intensity);
-    virtual Vector3d calculate_lighting(Intersection& intersection);
-    Vector3d intensity;
-    Vector3d position;
+    explicit Light(const Eigen::Vector3d& intensity);
+    explicit Light(const Eigen::Vector3d& position, const Eigen::Vector3d& intensity);
+
+    virtual Eigen::Vector3d calculate_lighting(Intersection& intersection);
+
+    Eigen::Vector3d get_intensity();
+    Eigen::Vector3d get_position();
+
+private:
+    Eigen::Vector3d intensity;
+    Eigen::Vector3d position;
 };
 
 

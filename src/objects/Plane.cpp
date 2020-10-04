@@ -1,13 +1,10 @@
-//
-// Created by keane on 03/10/2020.
-//
-
 #include "raytracer/objects/Plane.h"
 
 
 Plane::Plane(const Eigen::Vector3d &position, const Eigen::Vector3d &normal, const Material &material)
-: Object(position, material),
-  normal(normal) {}
+: Object(position, material)
+, normal(normal)
+{ }
 
 
 Eigen::Vector3d Plane::get_normal() const {

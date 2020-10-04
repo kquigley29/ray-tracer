@@ -1,20 +1,21 @@
-//
-// Created by keane on 03/10/2020.
-//
-#include "raytracer/objects/Object.h"
-
 #ifndef RAYTRACER_DISC_H
 #define RAYTRACER_DISC_H
 
-using Eigen::Vector3d;
 
-class Disc : public Object {
+#include "raytracer/objects/Plane.h"
+
+
+class Disc : public Plane {
 public:
-    Disc(Vector3d position, Vector3d normal, double radius, Material material);
+    Disc(const Eigen::Vector3d& position, const Eigen::Vector3d& normal, const double& radius, const Material& material);
 
-    bool get_intersection(Intersection &intersection, const Ray &ray) override;
+    bool get_intersection(Intersection& intersection, const Ray& ray) override;
 
-    Vector3d get_normal();
+    double get_radius() const;
+
+private:
+    Eigen::Vector3d normal;
+    double radius;
 };
 
 

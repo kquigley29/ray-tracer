@@ -1,11 +1,10 @@
-//
-// Created by angus on 03/10/2020.
-//
+#ifndef RAYTRACER_RAY_H
+#define RAYTRACER_RAY_H
+
+
 #include <eigen3/Eigen/Eigen>
 #include <utility>
 
-#ifndef RAYTRACER_RAY_H
-#define RAYTRACER_RAY_H
 
 struct Ray {
     Eigen::Vector3d origin;
@@ -16,5 +15,6 @@ struct Ray {
         this->direction = direction;
     }
 };
+
 
 #endif //RAYTRACER_RAY_H

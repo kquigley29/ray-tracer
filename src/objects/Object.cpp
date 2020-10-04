@@ -5,8 +5,9 @@
 #include<iostream>
 
 Object::Object(const Eigen::Vector3d& position, const Material& material)
-: position(position),
-  material(material) {}
+: position(position)
+, material(material)
+{ }
 
 
 Eigen::Vector3d Object::get_position() {

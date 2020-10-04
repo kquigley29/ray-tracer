@@ -1,15 +1,12 @@
-//
-// Created by keane on 03/10/2020.
-//
+#ifndef RAYTRACER_SPHERE_H
+#define RAYTRACER_SPHERE_H
+
 
 #include <eigen3/Eigen/Eigen>
 #include "raytracer/objects/Object.h"
 #include "raytracer/Intersection.h"
 #include "raytracer/Material.h"
 #include "raytracer/Ray.h"
-
-#ifndef RAYTRACER_SPHERE_H
-#define RAYTRACER_SPHERE_H
 
 
 class Sphere: public Object {

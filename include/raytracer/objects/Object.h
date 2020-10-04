@@ -1,15 +1,12 @@
-//
-// Created by keane on 03/10/2020.
-//
+#ifndef RAYTRACER_OBJECT_H
+#define RAYTRACER_OBJECT_H
+
+
 #include <vector>
 #include <eigen3/Eigen/Eigen>
 #include "raytracer/Ray.h"
 #include "raytracer/Material.h"
 #include "raytracer/Intersection.h"
-
-
-#ifndef RAYTRACER_OBJECT_H
-#define RAYTRACER_OBJECT_H
 
 
 class Object {

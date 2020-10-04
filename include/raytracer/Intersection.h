@@ -1,12 +1,9 @@
-//
-// Created by keane on 03/10/2020.
-//
-#include <eigen3/Eigen/Eigen>
-#include "raytracer/Material.h"
-
-
 #ifndef RAYTRACER_INTERSECTION_H
 #define RAYTRACER_INTERSECTION_H
+
+
+#include <eigen3/Eigen/Eigen>
+#include "raytracer/Material.h"
 
 
 struct Intersection {
@@ -17,7 +14,6 @@ struct Intersection {
     explicit Intersection() = default;
 
     explicit Intersection(const Eigen::Vector3d& hit_point, const Eigen::Vector3d& normal, const Material& material)
-
     : hit_point(hit_point),
       normal(normal),
       material(material) {}
