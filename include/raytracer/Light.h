@@ -4,6 +4,7 @@
 
 #include<eigen3/Eigen/Eigen>
 #include<raytracer/Intersection.h>
+#include "raytracer/utils.h"
 
 #ifndef RAYTRACER_LIGHT_H
 #define RAYTRACER_LIGHT_H

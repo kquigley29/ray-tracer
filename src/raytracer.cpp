@@ -12,17 +12,36 @@
 #include "raytracer/Camera.h"
 #include "raytracer/Scene.h"
 #include "eigen3/Eigen/Eigen"
+#include <stdlib.h>
+#include<thread>
 
 using Eigen::Vector3d;
 
 int main(int argc, char** argv){
 
-    Camera camera(Vector3d(0,0,5), Vector3d(0.1,1,-1), 1, std::array<double, 2>{500,400});
+    int cores = std::thread::hardware_concurrency();
+
+    std::array<double, 2> res{800, 800};
+    if(argc == 2){
+        res[0] = atof(argv[1]);
+        res[1] = atof(argv[1]);
+    }
+    else if(argc == 3){
+        res[0] = atof( argv[1]);
+        res[1] = atof(argv[2]);
+    }
 
 
-    Scene scene(camera, std::vector<Light*>{new PointLight(Vector3d(0,5,10), Vector3d(10000,20000,20000))}, std::vector<Object*>{new Plane(Vector3d(0,0,-2), Vector3d(0,0,1), Material(1,1,1)), new Sphere(Vector3d(2.5,5,0), 1, Material(1,1,1)), new Sphere(Vector3d(-2.5,5,0), 1, Material(1,0.5,1)), new Sphere(Vector3d(0,3,0), 1, Material(1,0.5,1))});
+    Camera camera(Vector3d(3.5,0,3), Vector3d(-0.8,1,-0.5), 0.7, res);
 
-    cv::Mat image = scene.render();
+    std::vector<Light*> lights = {new PointLight(Vector3d(0,-1,4), Vector3d(3000,1000,1000)),new PointLight(Vector3d(0,5,1), Vector3d(500,500,500)), new PointLight(Vector3d(0,5,7), Vector3d(2000,2000,3000))};
+    std::vector<Object*> objects = {new Plane(Vector3d(5,5,0), Vector3d(-1,-1,0), Material(0.5,1,0.5)), new Plane(Vector3d(0,0,-2), Vector3d(0,0,1), Material(1,1,1)),new Plane(Vector3d(-3,0,0), Vector3d(1,0,0), Material(1,1,1)), new Plane(Vector3d(0,12,0), Vector3d(0,-1,0), Material(1,1,1)),new Sphere(Vector3d(2.5,5,0), 1, Material(1,1,1)), new Sphere(Vector3d(-2.5,5,0), 1, Material(1,0.5,1)), new Sphere(Vector3d(0,3,0), 1, Material(1,0.5,1)), new Sphere(Vector3d(0,7,0), 1, Material(1,1,0.7))};
+
+    Scene scene(camera, lights, objects);
+
+  //  cv::Mat image = scene.render();
+
+    cv::Mat image = scene.render_multithreaded(4);
 
     cv::imshow("image", image);
     cv::waitKey();

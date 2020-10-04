@@ -3,3 +3,5 @@
 //
 
 #include "../../include/raytracer/objects/Disc.h"
+
+//Disc::Disc(Vector3d position, Vector3d normal, double radius, Material material) :

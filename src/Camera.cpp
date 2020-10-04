@@ -25,11 +25,8 @@ Camera::Camera(const Vector3d& position, const Vector3d& orientation, const doub
 
 Ray Camera::generate_ray(float x, float y) {
     Vector3d pix_pos = this->middle - (this->pwidth * x * this->left) - (this->pwidth * y * this->up);
-    pix_pos += this->up * this->height / 2;
-    pix_pos += this->left * this->width / 2;
-    Vector3d dray = (pix_pos - this->position).normalized();
-
-    return Ray(this->position, dray);
+    pix_pos += this->up * this->height / 2 + this->left * this->width / 2;
+    return Ray(this->position, pix_pos - this->position);
 
 }
 

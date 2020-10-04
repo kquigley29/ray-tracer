@@ -4,6 +4,7 @@
 #include<Eigen/Eigen>
 #include<raytracer/Ray.h>
 #include<raytracer/utils.h>
+#include "random"
 
 #ifndef RAYTRACER_CAMERA_H
 #define RAYTRACER_CAMERA_H

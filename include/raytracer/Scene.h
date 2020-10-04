@@ -10,13 +10,19 @@
 #include<raytracer/objects/Object.h>
 #include "Eigen/Eigen"
 #include "opencv2/opencv.hpp"
+#include "thread"
+#include "future"
 
 class Scene {
 public:
     Scene(Camera& camera, std::vector<Light*> lights, std::vector<Object*> objects);
     cv::Mat render();
-    bool get_hit(Ray ray, Object* obj);
+    cv::Mat render_multithreaded(int cores);
+    bool get_hit(Vector3d orig, Vector3d dest);
 private:
+    Vector3d render_pixel(int x, int y);
+    static cv::Mat render_pixels_section(int core, int num_cores, Scene* scene);
+
     Camera camera;
     std::vector<Light*> lights;
     std::vector<Object*> objects;
