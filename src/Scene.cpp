@@ -21,6 +21,7 @@ cv::Mat Scene::render() {
     return image;
 };
 
+
 cv::Mat Scene::render_multithreaded(int cores) {
     std::array<double, 2> res = this->camera.get_resolution();
     cv::Mat image(res[1], res[0], CV_8UC3, cv::Scalar(0, 0, 0));
