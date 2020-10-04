@@ -19,7 +19,7 @@ bool Plane::get_intersection(Intersection &intersection, const Ray &ray) {
     double numerator = this->get_normal().dot(this->get_position() - ray.origin);
     double denominator = this->get_normal().dot(ray.direction);
 
-    if (!denominator) return false;
+    if (denominator > 0) return false;
 
     double t = numerator / denominator;
     Eigen::Vector3d hit_point = ray.origin + (t * ray.direction);

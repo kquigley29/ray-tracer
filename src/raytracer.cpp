@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "raytracer/objects/Sphere.h"
+#include "raytracer/objects/Plane.h"
 #include "raytracer/Ray.h"
 #include "raytracer/Material.h"
 #include "raytracer/PointLight.h"
@@ -16,10 +17,10 @@ using Eigen::Vector3d;
 
 int main(int argc, char** argv){
 
-    Camera camera(Vector3d(0,0,0), Vector3d(0,1,0), 0.5, std::array<double, 2>{1000,800});
+    Camera camera(Vector3d(0,0,5), Vector3d(0.1,1,-1), 1, std::array<double, 2>{500,400});
 
 
-    Scene scene(camera, std::vector<Light*>{new PointLight(Vector3d(0,5,10), Vector3d(10000,20000,20000))}, std::vector<Object*>{new Sphere(Vector3d(-0.5,5,0), 1, Material(1,0.5,1)), new Sphere(Vector3d(0.5,5,0), 1, Material(1,1,1))});
+    Scene scene(camera, std::vector<Light*>{new PointLight(Vector3d(0,5,10), Vector3d(10000,20000,20000))}, std::vector<Object*>{new Plane(Vector3d(0,0,-2), Vector3d(0,0,1), Material(1,1,1)), new Sphere(Vector3d(2.5,5,0), 1, Material(1,1,1)), new Sphere(Vector3d(-2.5,5,0), 1, Material(1,0.5,1)), new Sphere(Vector3d(0,3,0), 1, Material(1,0.5,1))});
 
     cv::Mat image = scene.render();
 

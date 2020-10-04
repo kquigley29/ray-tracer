@@ -37,9 +37,14 @@ cv::Mat Scene::render() {
 
                         for(auto light : this->lights){
 
-                            Vector3d value = light->calculate_lighting(intersection);
+                            bool inshadow = this->get_hit(Ray(intersection.hit_point, (light->position - intersection.hit_point)), obj);
 
-                            colour += value;
+                            if(!inshadow) {
+
+                                Vector3d value = light->calculate_lighting(intersection);
+
+                                colour += value;
+                            }
 
                         }
                         image.at<cv::Vec3b>(cv::Point(x,y)) = cv::Vec3b(colour.x(), colour.y(), colour.z());
@@ -56,4 +61,23 @@ cv::Mat Scene::render() {
 
     }
     return image;
+}
+
+bool Scene::get_hit(Ray ray, Object* object) {
+    Intersection intersection;
+    bool hit = false;
+    for(int i = 0; i < this->objects.size(); i++){
+
+        if(this->objects[i] != object) {
+
+            if(this->objects[i]->get_intersection(intersection, ray)){
+                return true;
+            }
+
+
+        }
+
+
+    }
+    return hit;
 }

@@ -15,6 +15,7 @@ public:
     Light(Vector3d intensity);
     virtual Vector3d calculate_lighting(Intersection& intersection);
     Vector3d intensity;
+    Vector3d position;
 };
 
 

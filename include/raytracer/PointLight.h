@@ -11,9 +11,6 @@ class PointLight : public Light{
 public:
     PointLight(Vector3d position, Vector3d intensity);
     Vector3d calculate_lighting(Intersection& intersection) override;
-
-private:
-    Vector3d position;
 };
 
 #endif //RAYTRACER_POINTLIGHT_H
