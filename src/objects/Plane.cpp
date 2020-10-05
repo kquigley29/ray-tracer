@@ -16,11 +16,19 @@ bool Plane::get_intersection(Intersection &intersection, const Ray &ray) {
     double numerator = this->get_normal().dot(this->get_position() - ray.origin);
     double denominator = this->get_normal().dot(ray.direction);
 
-    if (denominator > 0) return false;
+    //if (denominator > 0) return false;
 
     double t = numerator / denominator;
+    if(t < 0){
+        return false;
+    }
     Eigen::Vector3d hit_point = ray.origin + (t * ray.direction);
+
     intersection = Intersection(hit_point, this->get_normal(), this->get_material());
+
+//    if(denominator > 0){
+//        intersection.normal = -intersection.normal;
+//    }
 
     return true;
 }

@@ -19,7 +19,7 @@
 using Eigen::Vector3d;
 
 int main(int argc, char** argv){
-
+    std::srand(time(NULL));
     int cores = std::thread::hardware_concurrency();
 
     std::array<double, 2> res{800, 800};
@@ -32,29 +32,44 @@ int main(int argc, char** argv){
         res[1] = atof(argv[2]);
     }
 
-    Camera camera(Vector3d(0,0,3), Vector3d(0,1,-0.5), 0.7, res);
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_real_distribution<double> dist(0.0,1.0);
+    Camera camera(
+            Vector3d(0,-10,1.5),
+            Vector3d(0,1,0),
+            2,
+            DOFData(1, 5, 0),
+            res
+            );
 
-    std::vector<Light*> lights = {new PointLight(Vector3d(0,-1,4),
-                                  Vector3d(3000,1000,1000)),
-                                  new PointLight(Vector3d(0,5,1),Vector3d(500,500,500)),
-                                  new PointLight(Vector3d(0,5,7), Vector3d(2000,2000,3000))};
+    std::vector<Light*> lights = {
+                                  //new PointLight(Vector3d(5,5,7.5), Vector3d(250000,250000,250000))
+                                  };
+
+//    std::vector<Object*> objects = {
+//            new Plane(Vector3d(0,0,-3), Vector3d(0,0,1), Material(0.1,0.1,0.2)),
+//            new Sphere(Vector3d(0,5,-2), 3, Material(0.25,0.15, 0.15)),
+//            new Plane(Vector3d(3,0,0), Vector3d(-1,0,0), Material(0.18,0.18,0.18)),
+//            new Plane(Vector3d(-3,0,-2), Vector3d(1,0,0), Material(0.1,0.1,0.2)),
+//            new Plane(Vector3d(0,0,3), Vector3d(0,0,-1), Material(0.1,0.1,0.2)),
+//            new Plane(Vector3d(0,10,0), Vector3d(0,-1,0), Material(0.18,0.18,0.18)),
+//
+//            };
 
     std::vector<Object*> objects = {
-            new Plane(Vector3d(0,0,10), Vector3d(0,0,-1), Material(1,0.5,0.5)),
-            new Plane(Vector3d(5,5,0), Vector3d(-1,-1,0), Material(0.5,1,0.5)),
-            new Plane(Vector3d(0,0,-2), Vector3d(0,0,1), Material(1,1,1)),
-            new Plane(Vector3d(-3,0,0), Vector3d(1,0,0), Material(1,1,1)),
-            new Plane(Vector3d(0,12,0), Vector3d(0,-1,0), Material(1,1,1)),
-            new Sphere(Vector3d(2.5,5,0), 1, Material(1,1,1)),
-            new Sphere(Vector3d(-2.5,5,0), 1, Material(1,0.5,1)),
-            new Sphere(Vector3d(0,3,0), 1, Material(1,0.5,1)),
-            new Sphere(Vector3d(0,7,0), 1, Material(1,1,0.7))};
+            new Plane(Vector3d(0,0,-1), Vector3d(0,0,1), Material(0.18,0.18,0.18,0,0,0)),
+            new Plane(Vector3d(-3,0,0), Vector3d(1,0,0), Material(0.18,0.05,0.05,0,0,0)),
+            new Plane(Vector3d(3,0,0), Vector3d(-1,0,0), Material(0.05,0.18,0.05,0,0,0)),
+            new Plane(Vector3d(0,0,4), Vector3d(0,0,-11), Material(0.18,0.18,0.18,1000,1000,1000)),
+            new Plane(Vector3d(0,6,0), Vector3d(0,-1,0), Material(0.2,0.2,0.2,0,0,0)),
+            new Sphere(Vector3d(0,2,0.5), 1, Material(0.25,0.15, 0.15, 0, 0, 0)),
+    };
+    Scene scene(camera, RenderOptions(1, true, 3, 20), lights,objects);
+    cv::Mat finalImage;
+    cv::cvtColor(scene.render_multithreaded(cores), finalImage, cv::COLOR_BGR2RGB);
 
-    Scene scene(camera, lights, objects);
-
-    cv::Mat image = scene.render_multithreaded(cores);
-
-    cv::imshow("image", image);
+    cv::imshow("image", finalImage);
     cv::waitKey();
 
     return 0;

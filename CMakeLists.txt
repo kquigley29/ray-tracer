@@ -4,6 +4,8 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_BUILD_TYPE Release)
 
+add_definitions(-DGI)
+
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
 

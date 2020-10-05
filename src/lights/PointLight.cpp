@@ -15,7 +15,5 @@ Eigen::Vector3d PointLight::calculate_lighting(Intersection& intersection) {
         return {0,0,0};
     }
 
-    return cos_theta * (Eigen::Vector3d(this->get_intensity().x() * intersection.material.colour.x(),
-                                        this->get_intensity().y() * intersection.material.colour.y(),
-                                        this->get_intensity().z() * intersection.material.colour.z())) / (dist * dist);
+    return (cos_theta * this->get_intensity()) / (dist * dist);
 }
