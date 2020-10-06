@@ -8,7 +8,7 @@
 #include "opencv2/opencv.hpp"
 #include "raytracer/Camera.h"
 #include "raytracer/Scene.h"
-#include "eigen3/Eigen/Eigen"
+#include <Eigen/Eigen>
 #include <cstdlib>
 #include <thread>
 

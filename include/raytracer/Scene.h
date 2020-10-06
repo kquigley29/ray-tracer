@@ -3,12 +3,12 @@
 
 
 #include <raytracer/Camera.h>
-#include<raytracer/lights/Light.h>
-#include<raytracer/objects/Object.h>
-#include "Eigen/Eigen"
-#include "opencv2/opencv.hpp"
-#include "thread"
-#include "future"
+#include <raytracer/lights/Light.h>
+#include <raytracer/objects/Object.h>
+#include <Eigen/Eigen>
+#include <opencv2/opencv.hpp>
+#include <thread>
+#include <future>
 
 
 class Scene {
@@ -20,7 +20,9 @@ public:
     cv::Mat render_multithreaded(int cores);
     bool get_hit(const Vector3d& origin, const Vector3d& destination);
     void add_object(Object* object);
+    void add_objects(std::vector<Object*> objects);
     void add_light(Light* light);
+    void add_lights(std::vector<Light*> lights);
 
 private:
     Vector3d render_pixel(int x, int y);

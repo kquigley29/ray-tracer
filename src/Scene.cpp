@@ -137,6 +137,20 @@ void Scene::add_object(Object* object) {
 }
 
 
+void Scene::add_objects(std::vector<Object *> objects) {
+    for (auto object: objects) {
+        this->add_object(object);
+    }
+}
+
+
 void Scene::add_light(Light *light) {
     this->lights.push_back(light);
+}
+
+
+void Scene::add_lights(std::vector<Light *> lights) {
+    for (auto light: lights) {
+        this->add_light(light);
+    }
 }
