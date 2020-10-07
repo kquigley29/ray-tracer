@@ -13,20 +13,22 @@
 
 class Scene {
 public:
+    explicit Scene();
     explicit Scene(const Camera& camera);
     explicit Scene(const Camera& camera, const std::vector<Light*>& lights, const std::vector<Object*>& objects);
 
     cv::Mat render();
-    cv::Mat render_multithreaded(int cores);
-    bool get_hit(const Vector3d& origin, const Vector3d& destination);
+    cv::Mat render_multithreaded();
+    bool get_hit(const Eigen::Vector3d& origin, const Eigen::Vector3d& destination);
+    void add_camera(const Camera *camera);
     void add_object(Object* object);
     void add_objects(std::vector<Object*> objects);
     void add_light(Light* light);
     void add_lights(std::vector<Light*> lights);
 
 private:
-    Vector3d render_pixel(int x, int y);
-    static cv::Mat render_pixels_section(int core, int num_cores, Scene* scene);
+    Eigen::Vector3d render_pixel(int x, int y);
+    static cv::Mat render_pixels_section(int core, Scene* scene);
 
     Camera camera;
     std::vector<Light*> lights;

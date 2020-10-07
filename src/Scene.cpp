@@ -1,6 +1,9 @@
 #include "raytracer/Scene.h"
 
 
+Scene::Scene() {}
+
+
 Scene::Scene(const Camera &camera)
 : camera(camera)
 { }
@@ -19,7 +22,7 @@ cv::Mat Scene::render() {
 
     for(int y = 0; y < res[1]; y++){
         for(int x = 0; x < res[0]; x++){
-            Vector3d colour = this->render_pixel(x, y);
+            Eigen::Vector3d colour = this->render_pixel(x, y);
             image.at<cv::Vec3b>(cv::Point(x, y)) = cv::Vec3b(colour.x(), colour.y(), colour.z());
         }
     }
@@ -28,31 +31,32 @@ cv::Mat Scene::render() {
 
 
 
-cv::Mat Scene::render_multithreaded(int cores) {
+cv::Mat Scene::render_multithreaded() {
+    unsigned int cores = std::thread::hardware_concurrency();
+
     std::array<double, 2> res = this->camera.get_resolution();
     cv::Mat image(res[1], res[0], CV_8UC3, cv::Scalar(0, 0, 0));
 
     std::vector<std::future<cv::Mat>> threads;
     for(int i = 0; i < cores; i ++){
-        threads.push_back(std::async(Scene::render_pixels_section, i, cores, this));
+        threads.push_back(std::async(Scene::render_pixels_section, i, this));
     }
     for(int i = 0; i < cores; i++){
         image += threads[i].get();
     }
-
     return image;
 }
 
 
-Vector3d Scene::render_pixel(int x, int y) {
-    Vector3d hit(std::numeric_limits<double>::infinity(), std::numeric_limits<double>::infinity(),
+Eigen::Vector3d Scene::render_pixel(int x, int y) {
+    Eigen::Vector3d hit(std::numeric_limits<double>::infinity(), std::numeric_limits<double>::infinity(),
                  std::numeric_limits<double>::infinity());
-    Vector3d final_colour(0, 0, 0);
+    Eigen::Vector3d final_colour(0, 0, 0);
 
     for (auto obj : this->objects) {
         Ray generated_ray = this->camera.generate_ray(x, y);
         Intersection intersection;
-        Vector3d colour(0, 0, 0);
+        Eigen::Vector3d colour(0, 0, 0);
 
         if (obj->get_intersection(intersection, generated_ray)) {
             double temp_dist1 = (intersection.hit_point - this->camera.get_position()).dot(
@@ -70,7 +74,7 @@ Vector3d Scene::render_pixel(int x, int y) {
                             light->get_position());
 
                     if (!is_in_shadow) {
-                        Vector3d value = light->calculate_lighting(intersection);
+                        Eigen::Vector3d value = light->calculate_lighting(intersection);
                         colour += value;
                     }
                 }
@@ -82,7 +86,9 @@ Vector3d Scene::render_pixel(int x, int y) {
 }
 
 
-cv::Mat Scene::render_pixels_section(int core, int num_cores, Scene* scene) {
+cv::Mat Scene::render_pixels_section(int core, Scene* scene) {
+    unsigned int num_cores = std::thread::hardware_concurrency();
+
     cv::Mat image(scene->camera.get_resolution()[1],
                   scene->camera.get_resolution()[0],
                   CV_8UC3,
@@ -92,7 +98,7 @@ cv::Mat Scene::render_pixels_section(int core, int num_cores, Scene* scene) {
     if(core != num_cores - 1){
         for(int y = 0; y < scene->camera.get_resolution()[1]; y++){
             for(int x = section_width*core; x < section_width*core + section_width; x ++){
-                Vector3d colour = scene->render_pixel(x, y);
+                Eigen::Vector3d colour = scene->render_pixel(x, y);
                 image.at<cv::Vec3b>(cv::Point(x, y)) = cv::Vec3b(colour.x(), colour.y(), colour.z());
             }
         }
@@ -100,7 +106,7 @@ cv::Mat Scene::render_pixels_section(int core, int num_cores, Scene* scene) {
     else if(core == num_cores - 1){
         for(int y = 0; y < scene->camera.get_resolution()[1]; y++){
             for(int x = section_width*core; x < scene->camera.get_resolution()[0]; x ++){
-                Vector3d colour = scene->render_pixel(x, y);
+                Eigen::Vector3d colour = scene->render_pixel(x, y);
                 image.at<cv::Vec3b>(cv::Point(x, y)) = cv::Vec3b(colour.x(), colour.y(), colour.z());
             }
         }
@@ -112,28 +118,30 @@ cv::Mat Scene::render_pixels_section(int core, int num_cores, Scene* scene) {
 /*
  * gets hits in the scene between ray and dest
  */
-bool Scene::get_hit(const Vector3d& origin, const Vector3d& destination) {
+bool Scene::get_hit(const Eigen::Vector3d& origin, const Eigen::Vector3d& destination) {
     Intersection intersection;
     bool hit = false;
     for (auto & object : this->objects){
 
-        //if(this->objects[i] != object) {
+        if(object->get_intersection(intersection, Ray(origin, destination - origin))){
 
-            if(object->get_intersection(intersection, Ray(origin, destination - origin))){
-
-                //check if the object is between the light and the object
-                if((intersection.hit_point - origin).dot(intersection.hit_point - origin) < (destination - origin).dot(destination -origin)) {
-                    return true;
-                }
+            //check if the object is between the light and the object
+            if((intersection.hit_point - origin).dot(intersection.hit_point - origin) < (destination - origin).dot(destination -origin)) {
+                return true;
             }
-        //}
+        }
     }
     return hit;
 }
 
 
+void Scene::add_camera(const Camera *camera) {
+    if (camera != nullptr) this->camera = *camera;
+}
+
+
 void Scene::add_object(Object* object) {
-    this->objects.push_back(object);
+    if (object != nullptr) this->objects.push_back(object);
 }
 
 
@@ -145,7 +153,7 @@ void Scene::add_objects(std::vector<Object *> objects) {
 
 
 void Scene::add_light(Light *light) {
-    this->lights.push_back(light);
+    if (light != nullptr) this->lights.push_back(light);
 }
 
 

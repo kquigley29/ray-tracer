@@ -11,7 +11,12 @@ struct Material {
     Material() = default;
 
     Material(double x, double y, double z)
-    : colour(x, y, z) {}
+    : colour(x, y, z)
+    { }
+
+    Material(const Eigen::Vector3d &colour)
+    : colour(colour)
+    { }
 };
 
 

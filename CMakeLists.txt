@@ -26,6 +26,7 @@ add_library(${PROJECT_NAME}lib
         src/Camera.cpp
         src/Scene.cpp
         src/utils.cpp
+        src/parser.cpp
         )
 
 target_link_libraries(${PROJECT_NAME}lib
@@ -37,7 +38,7 @@ target_link_libraries(${PROJECT_NAME}lib
         )
 
 add_executable(${PROJECT_NAME}
-        src/raytracer.cpp
+        src/main.cpp
         )
 
 target_link_libraries(${PROJECT_NAME}

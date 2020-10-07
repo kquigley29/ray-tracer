@@ -1,8 +1,5 @@
-//
-// Created by keane on 03/10/2020.
-//
-
 #include <raytracer/utils.h>
+
 
 Eigen::Vector3d clamp(Eigen::Vector3d vec){
     Eigen::Vector3d colour(0,0,0);
@@ -25,4 +22,4 @@ Eigen::Vector3d clamp(Eigen::Vector3d vec){
         colour.z() = vec.z();
     }
     return colour;
-};
+}
