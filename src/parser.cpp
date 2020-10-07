@@ -54,29 +54,36 @@ std::vector<std::vector<std::string>> read_cfg(char *filename) {
     std::ifstream file(filename);
     std::string line;
     int line_number = 0;
+    bool getting_options = false;
 
     std::vector<std::string> part;
     std::vector<std::vector<std::string>> parts;
 
     while (std::getline(file, line)) {
         line_number++;
+        line.erase(std::remove(line.begin(), line.end(), ' '), line.end());
 
         switch (line[0]) {
             case '[':
-            case '-':
+                getting_options = true;
                 part.push_back(line);
                 break;
 
             case '#':
+            case ';':
                 break;
 
             case '\0':
-                parts.push_back(part);
-                part = std::vector<std::string>();
+                if (!part.empty()) {
+                    parts.push_back(part);
+                    part = std::vector<std::string>();
+                    getting_options = false;
+                }
                 break;
 
             default:
-                std::cout << "[cfg error] Failed to parse line " << line_number << ".\n\n";
+                if (getting_options) part.push_back(line);
+                else std::cout << "[cfg error] Failed to parse line " << line_number << ".\n\n";
         }
     }
     parts.push_back(part);
@@ -96,25 +103,24 @@ Camera *parse_camera(const std::vector<std::string>& part) {
         std::string name = get_option_name(option);
 
         if (name == "[camera]") {
-            std::cout << "[cfg info] Adding camera...\n";
         }
-        else if (name == "-position") {
+        else if (name == "position") {
             position = get_option_value_vector(option);
             requirement_count++;
         }
-        else if (name == "-orientation") {
+        else if (name == "orientation") {
             orientation = get_option_value_vector(option);
             requirement_count++;
         }
-        else if (name == "-range") {
+        else if (name == "range") {
             range = get_option_value_double(option);
             requirement_count++;
         }
-        else if (name == "-width") {
+        else if (name == "width") {
             width = get_option_value_double(option);
             requirement_count++;
         }
-        else if (name == "-height") {
+        else if (name == "height") {
             height = get_option_value_double(option);
             requirement_count++;
         }
@@ -141,13 +147,12 @@ PointLight *parse_point_light(const std::vector<std::string> &part) {
         std::string name = get_option_name(option);
 
         if (name == "[point_light]") {
-            std::cout << "[cfg info] Adding point light...\n";
         }
-        else if (name == "-position") {
+        else if (name == "position") {
             position = get_option_value_vector(option);
             requirement_count++;
         }
-        else if (name == "-intensity") {
+        else if (name == "intensity") {
             intensity = get_option_value_vector(option);
             requirement_count++;
         }
@@ -175,17 +180,16 @@ Sphere *parse_sphere(const std::vector<std::string> &part) {
         std::string name = get_option_name(option);
 
         if (name == "[sphere]") {
-            std::cout << "[cfg info] Adding sphere...\n";
         }
-        else if (name == "-position") {
+        else if (name == "position") {
             position = get_option_value_vector(option);
             requirement_count++;
         }
-        else if (name == "-radius") {
+        else if (name == "radius") {
             radius = get_option_value_double(option);
             requirement_count++;
         }
-        else if (name == "-colour" || name == "-color") {
+        else if (name == "colour" || name == "color") {
             colour = get_option_value_vector(option);
             requirement_count++;
         }
@@ -214,17 +218,16 @@ Plane *parse_plane(const std::vector<std::string> &part) {
         std::string name = get_option_name(option);
 
         if (name == "[plane]") {
-            std::cout << "[cfg info] Adding plane...\n";
         }
-        else if (name == "-position") {
+        else if (name == "position") {
             position = get_option_value_vector(option);
             requirement_count++;
         }
-        else if (name == "-normal") {
+        else if (name == "normal") {
             normal = get_option_value_vector(option);
             requirement_count++;
         }
-        else if (name == "-colour" || name == "-color") {
+        else if (name == "colour" || name == "color") {
             colour = get_option_value_vector(option);
             requirement_count++;
         }
@@ -245,25 +248,25 @@ Plane *parse_plane(const std::vector<std::string> &part) {
 
 Scene generate_scene(char *filename) {
     std::vector<std::vector<std::string>> parts = read_cfg(filename);
-    std::cout << "Number of parts: " << parts.size() << "\n\n";
     Scene scene;
     for (const auto &part: parts) {
         if (part[0] == "[camera]") {
             scene.add_camera(parse_camera(part));
-            std::cout << "[cfg info] Camera added to scene.\n\n";
+            std::cout << "[cfg info] Camera added.\n";
         }
         if (part[0] == "[sphere]") {
             scene.add_object(parse_sphere(part));
-            std::cout << "[cfg info] Sphere added to scene.\n\n";
+            std::cout << "[cfg info] Sphere added.\n";
         }
         if (part[0] == "[plane]") {
             scene.add_object(parse_plane(part));
-            std::cout << "[cfg info] Plane added.\n\n";
+            std::cout << "[cfg info] Plane added.\n";
         }
         if (part[0] == "[point_light]") {
             scene.add_light(parse_point_light(part));
-            std::cout << "[cfg info] Point Light added.\n\n";
+            std::cout << "[cfg info] Point light added.\n";
         }
     }
+    std::cout << "Number of parts: " << parts.size() << "\n";
     return scene;
 }
