@@ -44,7 +44,7 @@ int main(int argc, char** argv){
             );
 
     std::vector<Light*> lights = {
-                                  //new PointLight(Vector3d(5,5,7.5), Vector3d(250000,250000,250000))
+                                  new PointLight(Vector3d(0,4.5,6), Vector3d(25000,25000,25000))
                                   };
 
 //    std::vector<Object*> objects = {
@@ -61,11 +61,11 @@ int main(int argc, char** argv){
             new Plane(Vector3d(0,0,-1), Vector3d(0,0,1), Material(0.18,0.18,0.18,0,0,0)),
             new Plane(Vector3d(-3,0,0), Vector3d(1,0,0), Material(0.18,0.05,0.05,0,0,0)),
             new Plane(Vector3d(3,0,0), Vector3d(-1,0,0), Material(0.05,0.18,0.05,0,0,0)),
-            new Plane(Vector3d(0,0,4), Vector3d(0,0,-11), Material(0.18,0.18,0.18,1000,1000,1000)),
+//            new Plane(Vector3d(0,0,4), Vector3d(0,0,-11), Material(0.18,0.18,0.18,1000,1000,1000)),
             new Plane(Vector3d(0,6,0), Vector3d(0,-1,0), Material(0.2,0.2,0.2,0,0,0)),
             new Sphere(Vector3d(0,2,0.5), 1, Material(0.25,0.15, 0.15, 0, 0, 0)),
     };
-    Scene scene(camera, RenderOptions(1, true, 3, 20), lights,objects);
+    Scene scene(camera, RenderOptions(1, true, 2, 80), lights,objects);
     cv::Mat finalImage;
     cv::cvtColor(scene.render_multithreaded(cores), finalImage, cv::COLOR_BGR2RGB);
 
