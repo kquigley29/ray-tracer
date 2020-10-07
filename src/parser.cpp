@@ -54,7 +54,6 @@ std::vector<std::vector<std::string>> read_cfg(char *filename) {
     std::ifstream file(filename);
     std::string line;
     int line_number = 0;
-    bool getting_options = false;
 
     std::vector<std::string> part;
     std::vector<std::vector<std::string>> parts;
@@ -65,25 +64,27 @@ std::vector<std::vector<std::string>> read_cfg(char *filename) {
 
         switch (line[0]) {
             case '[':
-                getting_options = true;
+                if (part.empty()) {
                 part.push_back(line);
+                }
+                else {
+                    parts.push_back(part);
+                    part = std::vector<std::string>();
+                    part.push_back(line);
+                }
                 break;
 
+            case '\0':
             case '#':
             case ';':
                 break;
 
-            case '\0':
-                if (!part.empty()) {
-                    parts.push_back(part);
-                    part = std::vector<std::string>();
-                    getting_options = false;
-                }
+            case '-':
+                part.push_back(line.substr(1));
                 break;
 
             default:
-                if (getting_options) part.push_back(line);
-                else std::cout << "[cfg error] Failed to parse line " << line_number << ".\n\n";
+                std::cout << "[cfg error] Failed to parse line " << line_number << ".\n\n";
         }
     }
     parts.push_back(part);
@@ -125,7 +126,7 @@ Camera *parse_camera(const std::vector<std::string>& part) {
             requirement_count++;
         }
         else {
-            std::cout << "[cfg error] No camera option for '" << name << "'.\n\n";
+            std::cout << "[cfg error] No camera option '" << name << "'.\n\n";
         }
     }
     if (requirement_count >= 5) {
@@ -157,7 +158,7 @@ PointLight *parse_point_light(const std::vector<std::string> &part) {
             requirement_count++;
         }
         else {
-            std::cout << "[cfg error] No point light option for '" << name << "'.\n\n";
+            std::cout << "[cfg error] No point light option '" << name << "'.\n\n";
         }
     }
     if (requirement_count >= 2) {
@@ -194,7 +195,7 @@ Sphere *parse_sphere(const std::vector<std::string> &part) {
             requirement_count++;
         }
         else {
-            std::cout << "[cfg error] No sphere option for '" << name << "'.\n\n";
+            std::cout << "[cfg error] No sphere option '" << name << "'.\n\n";
         }
     }
     if (requirement_count >= 3) {
@@ -202,7 +203,7 @@ Sphere *parse_sphere(const std::vector<std::string> &part) {
         return new Sphere(position, radius, material);
     }
     else {
-        std::cout << "[cfg error] Not enough required options were provided for Sphere.\n\n";
+        std::cout << "[cfg error] Not enough required options provided for Sphere. Part ignored.\n\n";
         return nullptr;
     }
 }
@@ -232,7 +233,7 @@ Plane *parse_plane(const std::vector<std::string> &part) {
             requirement_count++;
         }
         else {
-            std::cout << "[cfg error] No plane option for '" << name << "'.\n\n";
+            std::cout << "[cfg error] No plane option '" << name << "'.\n\n";
         }
     }
     if (requirement_count >= 3) {
@@ -252,21 +253,16 @@ Scene generate_scene(char *filename) {
     for (const auto &part: parts) {
         if (part[0] == "[camera]") {
             scene.add_camera(parse_camera(part));
-            std::cout << "[cfg info] Camera added.\n";
         }
         if (part[0] == "[sphere]") {
             scene.add_object(parse_sphere(part));
-            std::cout << "[cfg info] Sphere added.\n";
         }
         if (part[0] == "[plane]") {
             scene.add_object(parse_plane(part));
-            std::cout << "[cfg info] Plane added.\n";
         }
         if (part[0] == "[point_light]") {
             scene.add_light(parse_point_light(part));
-            std::cout << "[cfg info] Point light added.\n";
         }
     }
-    std::cout << "Number of parts: " << parts.size() << "\n";
     return scene;
 }

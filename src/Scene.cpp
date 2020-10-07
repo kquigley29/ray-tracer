@@ -1,4 +1,6 @@
 #include "raytracer/Scene.h"
+#include <thread>
+#include <future>
 
 
 Scene::Scene() {}

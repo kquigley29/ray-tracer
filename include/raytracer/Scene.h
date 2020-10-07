@@ -7,8 +7,6 @@
 #include <raytracer/objects/Object.h>
 #include <Eigen/Eigen>
 #include <opencv2/opencv.hpp>
-#include <thread>
-#include <future>
 
 
 class Scene {
