@@ -12,16 +12,25 @@ Light::Light(const Eigen::Vector3d& position, const Eigen::Vector3d& intensity)
 { }
 
 
-Eigen::Vector3d Light::calculate_lighting(Intersection &intersection) {
+Eigen::Vector3d Light::calculate_lighting(Intersection &intersection)
+{
     return {0,0,0};
 }
 
 
-Eigen::Vector3d Light::get_position() {
+Eigen::Vector3d Light::get_position() const
+{
     return this->position;
 }
 
 
-Eigen::Vector3d Light::get_intensity() {
+Eigen::Vector3d Light::get_intensity() const
+{
     return this->intensity;
+}
+
+
+Light* Light::parse(const std::vector<std::string> &options)
+{
+    return nullptr;
 }

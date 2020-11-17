@@ -5,7 +5,8 @@
 #define RAYTRACER_MATERIAL_H
 
 
-struct Material {
+struct Material
+{
     Eigen::Vector3d colour;
 
     Material() = default;
@@ -14,7 +15,7 @@ struct Material {
     : colour(x, y, z)
     { }
 
-    Material(const Eigen::Vector3d &colour)
+    Material(const Eigen::Vector3d& colour)
     : colour(colour)
     { }
 };

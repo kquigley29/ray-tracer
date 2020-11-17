@@ -5,7 +5,8 @@
 #include "raytracer/objects/Plane.h"
 
 
-class Disc : public Plane {
+class Disc : public Plane
+{
 public:
     Disc(const Eigen::Vector3d& position, const Eigen::Vector3d& normal, const double& radius, const Material& material);
 

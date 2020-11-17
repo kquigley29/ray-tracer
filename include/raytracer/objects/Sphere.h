@@ -9,13 +9,16 @@
 #include "raytracer/Ray.h"
 
 
-class Sphere: public Object {
+class Sphere: public Object
+{
 public:
     explicit Sphere(const Eigen::Vector3d& position, const double& radius, const Material& material);
 
     double get_radius() const;
 
     bool get_intersection(Intersection& intersection, const Ray& ray) override;
+
+    static Sphere* parse(const std::vector<std::string>& options);
 
 private:
     double radius;

@@ -6,7 +6,7 @@
 #include <string>
 
 
-Eigen::Vector3d clamp(Eigen::Vector3d vec);
+Eigen::Vector3d clamp(const Eigen::Vector3d& vec);
 
 
 #endif //RAY_TRACER_UTILS_H

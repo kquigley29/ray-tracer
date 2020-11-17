@@ -9,23 +9,36 @@
 #include <opencv2/opencv.hpp>
 
 
-class Scene {
+class Scene
+{
 public:
-    explicit Scene();
+    explicit Scene() = default;
+
     explicit Scene(const Camera& camera);
+
     explicit Scene(const Camera& camera, const std::vector<Light*>& lights, const std::vector<Object*>& objects);
 
     cv::Mat render();
+
     cv::Mat render_multithreaded();
+
     bool get_hit(const Eigen::Vector3d& origin, const Eigen::Vector3d& destination);
+
     void add_camera(const Camera *camera);
+
     void add_object(Object* object);
+
     void add_objects(std::vector<Object*> objects);
+
     void add_light(Light* light);
+
     void add_lights(std::vector<Light*> lights);
+
+    void generate_scene(char* filename);
 
 private:
     Eigen::Vector3d render_pixel(int x, int y);
+
     static cv::Mat render_pixels_section(int core, Scene* scene);
 
     Camera camera;

@@ -6,7 +6,8 @@
 #include "raytracer/Material.h"
 
 
-struct Intersection {
+struct Intersection
+{
     Eigen::Vector3d hit_point;
     Eigen::Vector3d normal;
     Material material;
@@ -14,19 +15,23 @@ struct Intersection {
     explicit Intersection() = default;
 
     explicit Intersection(const Eigen::Vector3d& hit_point, const Eigen::Vector3d& normal, const Material& material)
-    : hit_point(hit_point),
-      normal(normal),
-      material(material) {}
+    : hit_point(hit_point)
+    , normal(normal)
+    , material(material)
+    { }
 
-    Eigen::Vector3d get_hit_point() {
+    Eigen::Vector3d get_hit_point() const
+    {
         return this->hit_point;
     }
 
-    Eigen::Vector3d get_normal() {
+    Eigen::Vector3d get_normal() const
+    {
         return this->normal;
     }
 
-    Material get_material() {
+    Material get_material() const
+    {
         return this->material;
     }
 };

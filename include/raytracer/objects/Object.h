@@ -9,14 +9,18 @@
 #include "raytracer/Intersection.h"
 
 
-class Object {
+class Object
+{
 public:
     explicit Object(const Eigen::Vector3d& position, const Material&  material);
 
-    Eigen::Vector3d get_position();
-    Material get_material();
+    Eigen::Vector3d get_position() const;
+
+    Material get_material() const;
 
     virtual bool get_intersection(Intersection& intersection, const Ray& ray);
+
+    static Object* parse(const std::vector<std::string>& options);
 
 protected:
     Eigen::Vector3d position;

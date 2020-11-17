@@ -3,19 +3,24 @@
 
 
 #include <eigen3/Eigen/Eigen>
-#include<raytracer/Intersection.h>
+#include <raytracer/Intersection.h>
 #include "raytracer/utils.h"
 
 
-class Light {
+class Light
+{
 public:
     explicit Light(const Eigen::Vector3d& intensity);
+
     explicit Light(const Eigen::Vector3d& position, const Eigen::Vector3d& intensity);
 
     virtual Eigen::Vector3d calculate_lighting(Intersection& intersection);
 
-    Eigen::Vector3d get_intensity();
-    Eigen::Vector3d get_position();
+    Eigen::Vector3d get_intensity() const;
+
+    Eigen::Vector3d get_position() const;
+
+    static Light* parse(const std::vector<std::string>& options);
 
 private:
     Eigen::Vector3d intensity;
