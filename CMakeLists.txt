@@ -48,6 +48,4 @@ target_link_libraries(trace
         ${PROJECT_NAME}
         )
 
-set_target_properties(trace ${PROJECT_NAME}
-        PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
+set_target_properties(trace PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
